@@ -1,0 +1,76 @@
+<mat-toolbar>
+  <mat-toolbar-row class="justify-content-between">
+    <button mat-icon-button (click)="toggleSidebar()">
+      <mat-icon>menu</mat-icon>
+    </button>
+
+    <div>
+      <a mat-button  routerLink="/home" >GTS Website</a>
+      <a mat-button  routerLink="/contact"> Contact Us <i
+        class="fa fa-mail-forward"></i> </a>
+      <a mat-button routerLink="/products"> Products </a>
+    </div>
+    
+    <div class="row mr-2 ml-auto">
+      <ul class="row m-0 align-items-center">
+        <a *ngIf="!this.authService.isLoggedIn()"
+             mat-button routerLink="/auth/login" routerLinkActive="active">Login <i class="fas fa-sign-in-alt"></i></a>
+        <a *ngIf="!this.authService.isLoggedIn()"
+           mat-button routerLink="/auth/register" routerLinkActive="active">Register <i class="far fa-user-circle"></i></a>
+        <!-- <a mat-button [matMenuTriggerFor]="managementMenu"> Management</a> -->
+        <a *ngIf="this.authService.isLoggedIn() && (this.authService.currntUser && this.authService.currntUser.isAdmin)"
+        style="font-family: 'Anton', sans-serif" mat-button [matMenuTriggerFor]="managementMenu">
+       Management
+     </a>
+     <mat-menu #managementMenu="matMenu">
+       <a mat-menu-item routerLink="/admin/dashboard" routerLinkActive="active">Dashboard</a>
+       <a mat-menu-item routerLink="/admin/management/manage-categories" routerLinkActive="active">M-Categories</a>
+       <a mat-menu-item routerLink="/admin/management/manage-users" routerLinkActive="active">M-Users</a>
+     </mat-menu>
+
+     <a mat-button style="font-family: 'Anton', sans-serif"
+        [matMenuTriggerFor]="userMenu" *ngIf="this.authService.isLoggedIn()">
+       {{authService.username}}
+     </a>
+        <a mat-button routerLink="/cart" routerLinkActive="active"
+        style="font-family: 'Anton', sans-serif; font-size: 23px"
+       >
+       <i style="font-size: 23px" class="fas fa-cart-plus" 
+          matBadgeOverlap="false"
+          matBadgePosition="above after" matBadgeSize="medium"
+          matBadgeColor="warn"></i>
+     </a>
+     <mat-menu #userMenu="matMenu">
+      <a mat-menu-item routerLink="/profile" routerLinkActive="active">Profile</a>
+      <a mat-menu-item routerLink="/orders" routerLinkActive="active">Orders</a>
+      <a mat-menu-item style="cursor: pointer;" (click)="authService.logout()">
+        <i class="fa fa-sign-out-alt"></i>
+        Logout
+      </a>
+    </mat-menu>
+
+        <li>
+          <button
+            mat-button
+            [matMenuTriggerFor]="menu"
+            class="user mt-2 d-flex align-items-center"
+          >
+            <img src="../assets/25.jpg" alt="" class="user-image mr-1 p-2" />
+
+            User Name
+            <mat-icon class="user-image-icon ml-1"
+              >keyboard_arrow_down</mat-icon
+            >
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item>
+              <mat-icon>exit_to_app</mat-icon>
+              Logout
+            </button>
+          </mat-menu>
+        </li>
+       
+      </ul>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>
